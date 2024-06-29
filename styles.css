@@ -5,3 +5,16 @@
 .tqbBlockButton {
   margin-right: 8px;
 }
+
+.tqbHoverDiv {
+  z-index: 1;
+}
+
+.tqbHoverDiv:hover {
+  border-radius: 50%;
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.tqbHoverDiv:hover + svg {
+  color: rgb(29, 155, 240);
+}
