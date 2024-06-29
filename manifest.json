@@ -6,7 +6,11 @@
   "description": "Adds a minimal one click block button next to the bookmark button on a tweet.",
 
   "icons": {
-    "48": "icons/blockIcon.svg"
+    "16": "icons/blockIcon.svg",
+    "32": "icons/blockIcon.svg",
+    "48": "icons/blockIcon.svg",
+    "96": "icons/blockIcon.svg",
+    "128": "icons/blockIcon.svg"
   },
 
   "content_scripts": [
