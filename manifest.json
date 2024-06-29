@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Twitter Quick Block",
+  "version": "1.0",
+
+  "description": "Adds a minimal one click block button next to the bookmark button on a tweet.",
+
+  "icons": {
+    "48": "icons/blockIcon.svg"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.x.com/*"],
+      "js": ["index.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
