@@ -28,13 +28,24 @@ function addBlockButtons() {
   }
 }
 
-function block(target) {
+async function block(target) {
   const tweet = target.closest("article[twitterQuickBlock=true]");
 
   // Use the native block button
   tweet.querySelector("button[data-testid=\"caret\"").click();
-  setTimeout(() => document.querySelector("div[role=\"menuitem\"][data-testid=\"block\"]").click(), 10);
-  setTimeout(() => document.querySelector("button[data-testid=\"confirmationSheetConfirm\"]").click(), 10);
+  
+  // Modify a Twitter div to prevent the menu from briefly flashing
+  const layers = document.querySelector("#layers");
+  layers.classList.add("tqbHideOverlay");
+
+  // TODO: Fix the weird side content background color flash
+
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  document.querySelector("div[role=\"menuitem\"][data-testid=\"block\"]").click();
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  document.querySelector("button[data-testid=\"confirmationSheetConfirm\"]").click();
+
+  layers.classList.remove("tqbHideOverlay");
 }
 
 console.log("Loading Twitter Quick Block");

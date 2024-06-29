@@ -1,11 +1,7 @@
+.tqbHideOverlay {
+  z-index: -1 !important;
+}
+
 .tqbBlockButton {
   margin-right: 8px;
-}
-
-div[data-testid="mask"] {
-  display: none;
-}
-
-div[data-testid="confirmationSheetDialog"] {
-  display: none;
 }
