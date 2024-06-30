@@ -1,9 +1,17 @@
 .tqbHideOverlay {
-  z-index: -1 !important;
+  visibility: hidden !important;
+}
+
+div[data-testid="DMDrawer"] {
+  visibility: visible !important;
+}
+
+div[data-testid="toast"] {
+  visibility: visible !important;
 }
 
 .tqbBlockButton {
-  margin-right: 8px;
+  margin-right: 1.6%;
 }
 
 .tqbHoverDiv {
