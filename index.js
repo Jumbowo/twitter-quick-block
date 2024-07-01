@@ -1,9 +1,21 @@
 // Icon taken from Twitter
 const blockIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1xvli5t r-1hdv0qi"><g><path d="M12 3.75c-4.55 0-8.25 3.69-8.25 8.25 0 1.92.66 3.68 1.75 5.08L17.09 5.5C15.68 4.4 13.92 3.75 12 3.75zm6.5 3.17L6.92 18.5c1.4 1.1 3.16 1.75 5.08 1.75 4.56 0 8.25-3.69 8.25-8.25 0-1.92-.65-3.68-1.75-5.08zM1.75 12C1.75 6.34 6.34 1.75 12 1.75S22.25 6.34 22.25 12 17.66 22.25 12 22.25 1.75 17.66 1.75 12z"></path></g></svg>';
 
+let currentUser = null;
+
 function addBlockButtons() {
+  if (currentUser === null) currentUser = getCurrentUser();
+
   const tweets = [...document.getElementsByTagName("article")]
-    .filter((tweet) => tweet.getAttribute("data-testid") === "tweet" && tweet.getAttribute("twitterQuickBlock") !== "true");
+    .filter((tweet) => {
+      return tweet.getAttribute("data-testid") === "tweet" && tweet.getAttribute("twitterQuickBlock") !== "true";
+    })
+    // Don't add block button to own tweets
+    .filter((tweet) => {
+      return (
+        tweet.querySelector("div[data-testid=\"User-Name\"] a[role=\"link\"]").getAttribute("href") !== currentUser
+      );
+    });
 
   for (const tweet of tweets) {
     const bottomBar = tweet.querySelector("div[role=\"group\"]:last-child");
@@ -30,6 +42,7 @@ function addBlockButtons() {
 
     // Mark block button added
     tweet.setAttribute("twitterQuickBlock", "true");
+
     bottomBar.insertBefore(blockIconDiv, bottomBar.children[4]);
   }
 }
@@ -40,16 +53,24 @@ async function block(target) {
   // Use the native block button
   tweet.querySelector("button[data-testid=\"caret\"").click();
   
-  // Modify a Twitter div to prevent the menu from briefly flashing
+  // Temporarily modify a Twitter div to prevent the menu from briefly flashing
+  // TODO: Fix weird flash in media viewing mode
   const layers = document.querySelector("#layers");
   layers.classList.add("tqbHideOverlay");
 
+  // TODO: Add loop/check in case of failure
   await new Promise((resolve) => setTimeout(resolve, 5));
   document.querySelector("div[role=\"menuitem\"][data-testid=\"block\"]").click();
   await new Promise((resolve) => setTimeout(resolve, 5));
   document.querySelector("button[data-testid=\"confirmationSheetConfirm\"]").click();
 
   layers.classList.remove("tqbHideOverlay");
+}
+
+function getCurrentUser() {  
+  // Use the profile button's link to get the current user's tag
+  const currentUser = document.querySelector("a[data-testid=\"AppTabBar_Profile_Link\"]").getAttribute("href");
+  return currentUser;
 }
 
 console.log("Loading Twitter Quick Block");
