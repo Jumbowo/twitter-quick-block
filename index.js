@@ -28,7 +28,7 @@ function addBlockButtons() {
       blockIconDiv.className += " tqbBlockButton";
 
       // Fix attributes
-      blockIconButton = blockIconDiv.querySelector("button");
+      const blockIconButton = blockIconDiv.querySelector("button");
       blockIconButton.setAttribute("aria-label", "Block");
       blockIconButton.setAttribute("data-testid", "block");
       blockIconButton.removeAttribute("aria-expanded");
@@ -39,6 +39,7 @@ function addBlockButtons() {
       // Add hover animations back manually
       const hoverDiv = blockIconDiv.querySelector("div:has(+ svg)");
       hoverDiv.classList.add("tqbHoverDiv");
+      hoverDiv.setAttribute("title", "Block");
 
       // Mark block button added
       tweet.setAttribute("twitterQuickBlock", "true");
@@ -76,8 +77,13 @@ async function block(target) {
 
 function getCurrentUser() {
   // Use the profile button's link to get the current user's tag
-  const currentUser = document.querySelector("a[data-testid=\"AppTabBar_Profile_Link\"]").getAttribute("href");
-  return currentUser;
+  try {
+    const currentUser = document.querySelector("a[data-testid=\"AppTabBar_Profile_Link\"]").getAttribute("href");
+    return currentUser;
+  } catch (error) {
+    console.error("TQB error: " + error);
+    return null;
+  }
 }
 
 function terminate() {
@@ -88,15 +94,17 @@ function terminate() {
 
 // Checks to see if extension will work properly
 function checkCompatibility() {
-
+  // TODO: Check for Twitter changing stuff
 }
 
 try {
   console.log("Loading Twitter Quick Block");
   checkCompatibility();
+
   const targetNode = document.querySelector("body");
   const observerConfig = { attributes: false, childList: true, subtree: true };
   const observer = new MutationObserver(addBlockButtons);
+
   observer.observe(targetNode, observerConfig);
 } catch (error) {
   console.error("Twitter Quick Block failed to load.");

@@ -3,7 +3,7 @@
   "name": "Twitter Quick Block",
   "version": "1.0",
 
-  "description": "Adds a minimal one click block button next to the bookmark button on a tweet.",
+  "description": "Adds a minimal one click block button at the bottom off a tweet.",
 
   "icons": {
     "16": "icons/blockIcon.svg",
