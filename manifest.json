@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.x.com/*"],
-      "js": ["index.js"],
+      "js": ["tqb.js"],
       "css": ["styles.css"]
     }
   ]
